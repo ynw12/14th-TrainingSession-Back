@@ -42,6 +42,10 @@
 2. 깃허브 파일에 이미지 삽입 https://m.blog.naver.com/tostart10/223272629177
 
 ## 🔎 Result
+<img width="1920" height="1080" alt="스크린샷(328)" src="https://github.com/user-attachments/assets/88acf04c-dfc4-401c-a5e2-996d282464c4" />
+<img width="1920" height="1080" alt="스크린샷(329)" src="https://github.com/user-attachments/assets/ba4a5107-a599-4f38-aaf0-ea295ec7dbc1" />
+<img width="1920" height="1080" alt="스크린샷(331)" src="https://github.com/user-attachments/assets/89e0ff28-eb91-4424-995b-538a1fe83560" />
+<img width="1920" height="1080" alt="스크린샷(330)" src="https://github.com/user-attachments/assets/21636ae4-8b2a-4d9d-9ba1-e82ca18afd71" />
 
 
 ## ✍🏻 Review
