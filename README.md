@@ -1,2 +1,56 @@
 # 14th-TrainingSession-Back
-이화여자대학교 멋쟁이사자처럼 14기 백엔드 교육 세션
+## 📌 Learning Summary
+1. Git Data Flow & Remote Repository
+   - 정방향 (작업 디렉토리 -> 원격 저장소)
+     - add : 작업 디렉토리 -> 스테이징 영역 이동으로 커밋할 파일들을 스테이징 영역에 추가
+     - commit : 스테이징 영역 -> 로컬 저장소 이동으로 여기부터는 파일의 '버전'을 기록 및 생성
+     - push : 로컬 저장소 -> 원격 저장소 이동으로 여기부터 본격적으로 github에 등록할 수 있다.
+   - 역방향 (원격 저장소 -> 작업 디렉토리)
+     - pull : 원격 저장소 -> 로컬 저장소 이동으로 원격에서 작업 공동자들이 커밋한 파일들을 내 로컬로 불러올 수 있음 (=download)
+     - reset : 로컬 저장소 -> 스테이징 영역 이동
+       - 명령어 : git reset {mode} {commit hash || HEAD~n} * HEAD:현재 브랜치의 최신 커밋 위치
+        - mode -> --soft : 스테이징 영역으로 이동, --mixed : 작업 디렉토리로 이동 --hard : 삭제
+     - restore : 스테이징 영역 -> 작업 디렉토리 이동 및 삭제
+         - 스테이징 취소 명령어 : git restore --staged {pathspec || . }
+         - 삭제 명령어 : git restore {pathspec || . }
+    - clone : 원격 저장소에 올라온 레포지토리를 로컬로 복제, 작업할 디렉토리를 처음 로컬에서 사용할 때 필요하다.
+      - 명령어 : git clone "레포지토리 링크"
+           
+2. Branch
+   - branch는 분기하다라는 뜻으로 깃허브에 올릴 여러 소스코드들 기능 or 작업담당자마다 분리할 때 유용하다
+   - checkout : 현 작업 브랜치가 feat인데 develop으로 이동하고 싶다면?
+     - git checkout develop 이렇게 브랜치명만 쓰면 된다.(따옴표,origin 이런 거 없이)
+    - merge = pull request (깃허브) : push 후 a브랜치에 b브랜치 변경사항을 병합하고 싶을 때 사용
+        - git checkout a (a 브랜치로 이동) -> git merge b (a 브랜치에 b내용 병합)
+        - Pull Request 는 깃허브에서 직접 클릭하여 병합하는 기능으로, a 브랜치에 가서 pull requests 클릭하여 merge를 요청 이때 내가 직접 요청을 수락해도 되고, 공동 작업자가 수락해도 된다. 수락까지 해야 완벽하게 머지 완료
+
+3. Organization & Repository
+   - organization은 말 그대로 작업 기관! 회사, 동아리 등에서의 공동 작업물들을 관리할 수 있는 공간으로 다른 사람들을 초대할 수 있다.
+   - Repository는 공동 작업물 단위 (프로젝트)로 생성     
+
+## 🔑 Key
+1. .gitignore : 단어만 알고 사용법은 잘 몰랐던 파일인데, 모든 변경 파일을 add할 수 없으니 git이 추적하지 않아도 될 파일을 여기에 추가하면 더이상 추적 xx (예를 들면, git add . 명령어를 사용해도 이 파일에 있는 데이터들은 적용되자 않는다.)
+2. merge와 commit + push의 차이점 : merge를 알기 전에는 merge와 push가 같은 기능이라고 생각했었다. 
+3. 코드 리뷰 : 코드 리뷰를 해본 적이 없어서 몰랐던 사항 pr로 들어가서 리뷰하고 싶은 이슈 찾아내기 이곳에서 코멘트를 달아 코드 리뷰하기
+4. 실습할 때 실수한 것들
+   - 저장 안하고 add : 파일 수정 후에 add, commit을 했는데 커밋할 파일이 없다는 에러가 떠서 너무 당황했는데 알고보니 저장을 하지 않았다고 운영진분꼐서 친절하게 알려주셨다.. 기본적이지만 그만큼 중요한 사항! 저장을 해야 add할 파일이 생기는 것
+   - clone 후 현 작업 파일 위치 추가 : clone을 하면 새로운 작업 파일 생성, pwd로 클론 파일 위치를 알아내고 vscode작업파일에 클론 파일 추가 그렇게 해야 내 작업 파일에서 깃 버전 관리가 가능하다. (팀장님께서 잘 알려주셔서 너무너무 감사했다..)
+
+## 📒 Reference
+1. 마크다운 https://inpa.tistory.com/entry/MarkDown-📚-마크다운-문법-💯-정리
+
+2. 깃허브 파일에 이미지 삽입 https://m.blog.naver.com/tostart10/223272629177
+
+## 🔎 Result
+<img width="1920" height="1080" alt="스크린샷(328)" src="https://github.com/user-attachments/assets/88acf04c-dfc4-401c-a5e2-996d282464c4" />
+<img width="1920" height="1080" alt="스크린샷(329)" src="https://github.com/user-attachments/assets/ba4a5107-a599-4f38-aaf0-ea295ec7dbc1" />
+<img width="1920" height="1080" alt="스크린샷(331)" src="https://github.com/user-attachments/assets/89e0ff28-eb91-4424-995b-538a1fe83560" />
+<img width="1920" height="1080" alt="스크린샷(330)" src="https://github.com/user-attachments/assets/21636ae4-8b2a-4d9d-9ba1-e82ca18afd71" />
+
+
+## ✍🏻 Review
+깃허브 플젝 경험이 있어서 당연히 잘 할 수 있을 거라 생각했는데 실습할 때 생각보다 헤매서 당황했던 기억이 있다. 
+하지만 이번 실습으로 다음에 깃을 사용할 때 더 능숙하게 다룰 거라는 생각이 들었다. 
+세션을 들을 때 아는 내용은 다시 복습이 되었고, 몰랐거나 궁금했던 내용은 흥미롭게 들었다. 
+그동안 깃에 대해 기본적인 내용을 공부할 기회가 없어서 주로 사용하는 명령어만 알고, 작업 디렉토리, 로컬 저장소의 차이는 모른 채 기계적으로 사용했는데 이번 세션으로 배울 기회가 되었다.
+
