@@ -3,4 +3,4 @@ from .views import *
 
 app_name = 'accounts'
 
-url_patterns=[]
+urlpatterns=[]
