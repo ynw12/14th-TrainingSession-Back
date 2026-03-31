@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ post.title }} - 상세 보기</title>
     <style>
-      /* --- 스타일링 (전체 합본) --- */
+      /* --- 스타일링 --- */
       * {
         box-sizing: border-box;
         margin: 0;
@@ -100,6 +100,24 @@
         min-height: 150px;
       }
 
+      /* 해시태그 */
+      .hashtag-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 2rem;
+      }
+ 
+      .hashtag-item {
+        display: inline-block;
+        padding: 0.3rem 0.75rem;
+        background-color: #ede9fe;
+        color: #6366f1;
+        border-radius: 999px;
+        font-size: 0.82rem;
+        font-weight: 600;
+      }
+
       /* 하단 버튼 (수정/삭제) */
       .post-footer {
         margin-top: 3rem;
@@ -121,6 +139,138 @@
       .btn-delete { background: #fee2e2; color: #ef4444; }
       
       .btn:hover { opacity: 0.8; }
+
+      /* ── 댓글 섹션 ── */
+      .comment-section {
+        width: 100%;
+        max-width: 750px;
+        margin-top: 2.5rem;
+        background: #fff;
+        padding: 2.5rem;
+        border-radius: 12px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .comment-section-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #374151;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #f3f4f6;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .comment-count-badge {
+        background-color: #f3f4f6;
+        color: #6b7280;
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 0.15rem 0.55rem;
+        border-radius: 999px;
+      }
+ 
+      /* 댓글 목록 */
+      .comment-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+ 
+      .comment-item {
+        padding: 1.5rem 0;
+        border-bottom: 1px solid #f3f4f6;
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+ 
+      .comment-item:last-child {
+        border-bottom: none;
+      }
+ 
+      .comment-avatar {
+        width: 38px;
+        height: 38px;
+        min-width: 38px;
+        min-height: 38px;
+        background-color: #6366f1;
+        border-radius: 50%;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #fff;
+        line-height: 1;
+        overflow: hidden;
+      }
+ 
+      .comment-body {
+        flex: 1;
+        min-width: 0;
+      }
+ 
+      .comment-meta {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 0.4rem;
+      }
+ 
+      .comment-username {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #374151;
+      }
+ 
+      .comment-date {
+        font-size: 0.78rem;
+        color: #9ca3af;
+      }
+ 
+      .comment-text {
+        font-size: 0.95rem;
+        color: #4b5563;
+        line-height: 1.65;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+ 
+      .no-comments {
+        text-align: center;
+        padding: 2.5rem 0;
+        color: #9ca3af;
+        font-size: 0.95rem;
+      }
+
+      /* 댓글 달기 버튼 */
+      .comment-form-wrapper {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid #f3f4f6;
+        display: flex;
+        justify-content: flex-end;
+      }
+ 
+      .btn-add-comment {
+        display: inline-block;
+        padding: 0.6rem 1.25rem;
+        background-color: #6366f1;
+        color: #fff;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        transition: background-color 0.15s;
+      }
+ 
+      .btn-add-comment:hover {
+        background-color: #4f46e5;
+      }
+
     </style>
   </head>
   <body>
@@ -142,15 +292,53 @@
 
         <div class="post-content">
           {{ post.content }}
-          <a href="{% url 'blog:home' %}">목록으로</a>
-          <a href="{% url 'blog:delete' post.id %}">삭제하기</a>
-          <a href="{% url 'blog:update_page' post.id %}">수정하기</a>
         </div>
 
+        <!-- 해시태그 -->
+        {% if post.hashtag.all %}
+        <div class="hashtag-list">
+          {% for hashtag in post.hashtag.all %}
+          <span class="hashtag-item">#{{ hashtag.hashtag }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+
         <footer class="post-footer">
-          
+          <a href="{% url 'blog:update_page' post.id %}" class="btn btn-edit">수정</a>
+          <a href="{% url 'blog:delete' post.id %}" class="btn btn-delete" onclick="return confirm('진짜 삭제하실 건가요?')">삭제</a>
         </footer>
       </article>
+
+      <!-- 댓글 섹션 -->
+      <section class="comment-section">
+        <h2 class="comment-section-title">
+          댓글
+          <span class="comment-count-badge">{{ post.comments.count }}</span>
+        </h2>
+
+        <!-- 댓글 목록 -->
+        <ul class="comment-list">
+          {% for comment in post.comments.all %}
+          <li class="comment-item">
+            <div class="comment-avatar">{{ comment.username|slice:":1"|upper }}</div>
+            <div class="comment-body">
+              <div class="comment-meta">
+                <span class="comment-username">{{ comment.username }}</span>
+                <span class="comment-date">{{ comment.created_at|date:"Y.m.d H:i" }}</span>
+              </div>
+              <p class="comment-text">{{ comment.comment_text }}</p>
+            </div>
+          </li>
+          {% empty %}
+          <li class="no-comments">아직 댓글이 없어요. 첫 번째 댓글을 남겨보세요! 💬</li>
+          {% endfor %}
+        </ul>
+
+        <!-- 댓글 달기 버튼 -->
+        <div class="comment-form-wrapper">
+          <a href="{% url 'blog:add_comment' post.id %}" class="btn-add-comment">댓글 달기</a>
+        </div>
+      </section>
     </main>
   </body>
 </html>
