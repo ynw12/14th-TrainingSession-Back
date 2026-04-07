@@ -4,4 +4,4 @@ from .models import Post, Comment, Hashtag
 admin.site.register(Post)
 admin.site.register(Comment)
 admin.site.register(Hashtag)
-# Register your models here.
+

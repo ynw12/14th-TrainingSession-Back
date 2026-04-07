@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,6 +30,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+AUTH_USER_MODEL='accounts.CustomUser'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -105,7 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
 # 사용자 테이블 설정
-AUTH_USER_MODEL = 'auth.User'
+AUTH_USER_MODEL = 'accounts.CustomUser'
 # 언어 설정
 LANGUAGE_CODE = 'ko-kr'
 # 시간대 설정
@@ -119,4 +121,20 @@ USE_L1ON = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+# 브라우저에서 static 파일에 접근할 때 사용하는 url
+STATIC_URL = '/static/'
+# 개발할 때 static 파일이 존재하는 경로 (폴더 위치) → 베이스 디렉토리 (최상위 폴더) 밑 ‘static’
+STATICFILES_DIRS = [
+    # 최상위 static
+    BASE_DIR / 'static',
+    # blog/static
+    os.path.join(BASE_DIR, 'blog', 'static'),
+]
+# 배포할 때 모든 static 파일을 한 곳에 모아두는 폴더 → static 파일을 ‘staticfiles’ 폴더에 모으기
+STATIC_ROOT = os.path.join('staticfiles')
+
+#media
+#사용자가 업로드한 media 파일에 브라우저가 접근할 때 사용하는 url
+MEDIA_URL = '/media/'
+# 사용자가 업로드한 media 파일이 실제로 저장되는 서버의 폴더 경로 최상위 > media
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

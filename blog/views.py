@@ -2,6 +2,7 @@ from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Hashtag
 from .forms import PostForm, Commentform
+
 def home(request):
     posts = Post.objects.order_by('-created_at')
     return render(request, 'home.html', {'Posts':posts})
@@ -30,6 +31,7 @@ def create(request):
             new_blog.hashtag.add(new_hashtag[0])
         return redirect('blog:detail', new_blog.id)
     return redirect('blog:home')
+
 def delete(request, post_id):
     delete_blog = get_object_or_404(Post, pk=post_id)
     delete_blog.delete()
