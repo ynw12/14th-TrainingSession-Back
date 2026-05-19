@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from datetime import timedelta
 from pathlib import Path
+import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,10 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ve#fy+(4k^8s+3np6g(g*mjjgi@2x^!8b_i3)dqfcjf=43f#an'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False # 외부노출방지
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['dutls1212.pythonanywhere.com']
 
 # Application definition
 
@@ -39,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt',
+    'corsheaders',
     'blog',
     'accounts',
 ]
@@ -62,6 +65,8 @@ SIMPLE_JWT = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', # 맨 위에 추가
+    'django.middleware.common.CommonMiddleware', # CommonMiddleware 다음에 추가
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -137,8 +142,45 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ORIGIN_WHITELIST = ( # cross-site 요청을 허용하는 호스트
+
+    'https://example.com',
+
+    'https://sub.example.com',
+
+    'http://localhost:8000',
+
+    'http://127.0.0.1:8000',
+
+)
+
+
+# or
+CORS_ORIGIN_ALLOW_ALL = True # 모든 호스트에서 cross-site 요청 허용
+
+CORS_ALLOW_CREDENTIALS = True # 쿠키가 cross-site HTTP 요청에 포함됨
+CORS_ALLOW_METHOODS = ( # 실제 요청에 허용되는 HTTP 메서드
+'GET',
+'POST',
+'PUT',
+'PATCH',
+'DELETE',
+'OPTIONS',
+)
+CORS_ALLOW_HEADERS = ( # 요청을 할 때 사용될 수 있는 non-standard HTTP 헤더 목록
+'accept',
+'accept-encoding',
+'authorization',
+'content-type',
+'dnt',
+'origin',
+'user-agent',
+'x-csrftoken',
+'x-requested-with',
+)
