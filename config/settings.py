@@ -13,22 +13,32 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 import os
+import environ
 
+env = environ.Env(
+    DEBUG=(bool,False),
+    ALLOWED_HOSTS=(list,[])
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+if (BASE_DIR / '.env.prod').exists():
+    environ.Env.read_env(BASE_DIR / '.env.prod')
+else:
+    environ.Env.read_env(BASE_DIR / '.env.dev')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ve#fy+(4k^8s+3np6g(g*mjjgi@2x^!8b_i3)dqfcjf=43f#an'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True # 외부노출방지
-
-ALLOWED_HOSTS = []
+DEBUG = env('DEBUG')
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+DATABASES = {
+    'default': env.db(default="sqlite:///db.sqlite3")
+}
 
 # Application definition
 
