@@ -12,6 +12,7 @@ class Post(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     body = models.TextField()
     language = models.IntegerField(choices=LANGUAGE_CHOICES)
+    image = models.ImageField(upload_to='posts/', blank=True, null=True) # 추가
 
     def __str__(self):
         return self.title

@@ -1,0 +1,28 @@
+# 1. 파이썬 3.11.9 버전의 기본 OS/환경을 가져옵니다.
+FROM python:3.11.9
+
+# 파이썬 파이코드 생성 방지 및 버퍼링 없는 출력 설정 (로그 실시간 확인용)
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV DJANGO_ENV=production
+
+WORKDIR /app
+
+
+# 2. 의존성 패키지 설치
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt \
+ && pip install --no-cache-dir gunicorn # 운영용 서버 gunicorn 추가
+
+
+# 3. 전체 프로젝트 코드 복사
+COPY . .
+
+# 4. AWS 배포 및 운영을 위한 정적 파일(CSS/JS) 모으기
+RUN python manage.py collectstatic --noinput
+
+# 5. 8000번 포트 노출
+EXPOSE 8000
+
+# 6. gunicorn을 통한 운영 서버 실행 (마이그레이션 후 실행)
+CMD ["sh", "-c", "python manage.py migrate && gunicorn --bind 0.0.0.0:8000 config.wsgi:application"]
