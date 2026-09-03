@@ -19,7 +19,7 @@ RUN pip install --no-cache-dir -r requirements.txt \
 COPY . .
 
 # 4. AWS 배포 및 운영을 위한 정적 파일(CSS/JS) 모으기
-RUN python manage.py collectstatic --noinput
+RUN python manage.py collectstatic --no-input
 
 # 5. 8000번 포트 노출
 EXPOSE 8000
